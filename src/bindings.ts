@@ -10,8 +10,13 @@ declare global {
 // Function avoids 'window not defined' in SSR
 const invoke = () => window.__TAURI_INVOKE__;
 
-export function test() {
-    return invoke()<string>("test")
+export function getPosts() {
+    return invoke()<Post[]>("get_posts")
 }
 
+export function createPost(data: CreatePostData) {
+    return invoke()<Post>("create_post", { data })
+}
 
+export type CreatePostData = { title: string; content: string }
+export type Post = { id: number; title: string; content: string }
